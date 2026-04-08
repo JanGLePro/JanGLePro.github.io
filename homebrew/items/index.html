@@ -625,5 +625,41 @@
 <script type="text/javascript" > (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)}; m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)}) (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym"); ym(42419409, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true }); </script> <noscript><div><img src="https://mc.yandex.ru/watch/42419409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <script type="text/javascript">let ALERTS = [];</script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.search');
+    if (!form) return;
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        redirectWithCleanParams(form);
+    });
+
+    function redirectWithCleanParams(form) {
+        const params = new URLSearchParams();
+
+        if (form.search.value.trim()) {
+            params.set('search', form.search.value.trim());
+        }
+
+        function parse(val) {
+            try {
+                return JSON.parse(val || '[]');
+            } catch {
+                return [];
+            }
+        }
+
+        const quality = parse(form.quality.value);
+        if (quality.length === 1) {
+            params.set('quality', quality[0]);
+        }
+
+        const url = './?' + params.toString();
+        window.location.href = url;
+    }
+});
+</script>
+
 </body>
 </html>
